@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import PolaroidGrid from './components/PolaroidGrid';
+import PolaroidModal from './components/PolaroidModal';
+import matchData from './matches';
 import './App.css';
 
 function App() {
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (match) => {
+    setSelectedMatch(match);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header className="app-header">
+        <h1>Le Mie Partite</h1>
       </header>
+      <main>
+        <PolaroidGrid matches={matchData} onOpenModal={openModal} />
+        {isModalOpen && selectedMatch && (
+          <PolaroidModal match={selectedMatch} onClose={closeModal} />
+        )}
+      </main>
     </div>
   );
 }
